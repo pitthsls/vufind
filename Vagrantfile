@@ -27,8 +27,12 @@ Vagrant.configure("2") do |config|
   # Network configuration to forward ports.
   config.vm.network :forwarded_port, guest: 80, host: 4567
   config.vm.network :forwarded_port, guest: 8983, host: 4568
+  
   config.vm.synced_folder ".", "/vagrant", :owner => 'ubuntu'
 
+  config.vm.synced_folder "../upmc", "/vufindlocal"
+  config.vm.synced_folder "../upmc_theme/upmc", "/vagrant/themes/upmc"
+  
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
@@ -58,6 +62,7 @@ Vagrant.configure("2") do |config|
     chown -R ubuntu:ubuntu /vufindlocal
     su - ubuntu -c 'cd /vagrant && composer install && php install.php --non-interactive --overridedir=/vufindlocal'
     ln -s /vufindlocal/httpd-vufind.conf /etc/apache2/conf-enabled/vufind.conf
+    ln -s /vufindlocal/vufind.service /etc/systemd/system/vufind.service
     a2enmod rewrite
     systemctl restart apache2
 
