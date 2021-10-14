@@ -18,9 +18,6 @@ lessphp_*.list
 module/VuFind/tests/.phpunit.result.cache
 node_modules
 public/swagger-ui
-<<<<<<< Updated upstream
-=======
 .vagrant
 lessphp_*.list
 *console.log
->>>>>>> Stashed changes
