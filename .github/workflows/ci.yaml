@@ -22,7 +22,7 @@ jobs:
           - php-version: 8.0
             phing_tasks: "qa-console"
           - php-version: 8.1
-            phing_tasks: "qa.php"
+            phing_tasks: "qa-php"
 
     steps:
       - name: Setup PHP
