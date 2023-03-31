@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://app.vagrantup.com/boxes/search
-  config.vm.box = "ubuntu/focal64"
+  config.vm.box = "ubuntu/bionic64"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -27,12 +27,8 @@ Vagrant.configure("2") do |config|
   # Network configuration to forward ports.
   config.vm.network :forwarded_port, guest: 80, host: 4567
   config.vm.network :forwarded_port, guest: 8983, host: 4568
-  
-  config.vm.synced_folder ".", "/usr/local/vufind", :owner => 'ubuntu'
+  config.vm.synced_folder ".", "/vagrant", :owner => 'ubuntu'
 
-  config.vm.synced_folder "../upmc", "/usr/local/vufind/local"
-  config.vm.synced_folder "../upmc_theme/upmc", "/usr/local/vufind/themes/upmc"
-  
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
@@ -46,7 +42,6 @@ Vagrant.configure("2") do |config|
     # Install package dependencies.
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
-    
     apt-get install -y git zip unzip apache2 default-jdk mysql-server
     apt-get install -y libapache2-mod-php php-mbstring php-pear php php-dev php-gd php-intl php-json php-ldap php-mysql php-soap php-xml php-curl
 
@@ -63,7 +58,6 @@ Vagrant.configure("2") do |config|
     chown -R ubuntu:ubuntu /vufindlocal
     su - ubuntu -c 'cd /vagrant && composer install && php install.php --non-interactive --overridedir=/vufindlocal'
     ln -s /vufindlocal/httpd-vufind.conf /etc/apache2/conf-enabled/vufind.conf
-    ln -s /vufindlocal/vufind.service /etc/systemd/system/vufind.service
     a2enmod rewrite
     systemctl restart apache2
 
